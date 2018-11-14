@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Carousel slider</title>
+    <style>
+        *{margin:0; padding:0;}
+
+        .item{
+            width:100%;
+            padding:150px 0 150px 0;
+            text-align:center;
+            position:absolute;
+            top:0;
+            color:white;
+            font-size:30px;
+            opacity:0;
+            transition:opacity 1s ease-in-out;
+        }   
+
+        .selected{
+            z-index:1;
+            opacity:1;
+        }
+
+        .item:nth-child(1){background-color:mediumseagreen}
+        .item:nth-child(2){background-color:mediumslateblue}
+        .item:nth-child(3){background-color:tomato}
+        .item:nth-child(4){background-color:dodgerblue}
+        .item:nth-child(5){background-color:teal}
+    </style>
+</head>
+<body>
+    <div class="slider">
+        <div class="item selected">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+        <div class="item">4</div>
+        <div class="item">5</div>
+    </div>
+
+    <script>
+        const SELECTED_CN = "selected";
+
+        function slide(){
+            let currentItem = document.querySelector(`.${SELECTED_CN}`);
+            let nextItem = currentItem.nextElementSibling;
+            if(nextItem){
+                currentItem.classList.remove(SELECTED_CN);
+                nextItem.classList.add(SELECTED_CN);
+            }else{
+                currentItem.classList.remove(SELECTED_CN);
+                document.querySelector('.item:first-child').classList.add(SELECTED_CN);                
+            }
+        }
+
+        setInterval(slide,2000);
+    </script>
+</body>
+</html>
