@@ -63,39 +63,54 @@
     </div>
 
     <script>
+        const SHOWING_CN = "showing";
+
         var firstItem = document.querySelector(".item:first-child");
         var lastItem = document.querySelector(".item:last-child");
-        const SHOWING_CN = "showing";
 
         var prevButton = document.querySelector(".prev");
         var nextButton = document.querySelector(".next");
+        prevButton.addEventListener("click",function(){slide(this)});
+        nextButton.addEventListener("click",function(){slide(this)});
 
-        prevButton.addEventListener("click",Prev);
-        nextButton.addEventListener("click",Next);
-
-        function Prev(){
+        function slide(who){
             var currentItem = document.querySelector(".showing");
-            var prevItem = currentItem.previousElementSibling;
-            if(prevItem){
-                currentItem.classList.remove(SHOWING_CN);
-                prevItem.classList.add(SHOWING_CN);
-             }else{
-                currentItem.classList.remove(SHOWING_CN);
-                lastItem.classList.add(SHOWING_CN);                    
-            }  
-        }
-
-        function Next(){
-            var currentItem = document.querySelector(".showing");
-            var nextItem = currentItem.nextElementSibling;
+            var nextItem = (who == prevButton) ? currentItem.previousElementSibling : currentItem.nextElementSibling;
+            console.dir(who);
+        
             if(nextItem){
                 currentItem.classList.remove(SHOWING_CN);
                 nextItem.classList.add(SHOWING_CN);
-             }else{
+            }else{
                 currentItem.classList.remove(SHOWING_CN);
-                firstItem.classList.add(SHOWING_CN);                    
-            }  
+                (who == prevButton) ? lastItem.classList.add(SHOWING_CN) : firstItem.classList.add(SHOWING_CN);
+            }
+           
         }
+
+        // function Prev(){
+        //     var currentItem = document.querySelector(".showing");
+        //     var prevItem = currentItem.previousElementSibling;
+        //     if(prevItem){
+        //         currentItem.classList.remove(SHOWING_CN);
+        //         prevItem.classList.add(SHOWING_CN);
+        //      }else{
+        //         currentItem.classList.remove(SHOWING_CN);
+        //         lastItem.classList.add(SHOWING_CN);                    
+        //     }  
+        // }
+
+        // function Next(){
+        //     var currentItem = document.querySelector(".showing");
+        //     var nextItem = currentItem.nextElementSibling;
+        //     if(nextItem){
+        //         currentItem.classList.remove(SHOWING_CN);
+        //         nextItem.classList.add(SHOWING_CN);
+        //      }else{
+        //         currentItem.classList.remove(SHOWING_CN);
+        //         firstItem.classList.add(SHOWING_CN);                    
+        //     }  
+        // }
         
         function init(){
             var currentItem = document.querySelector(".showing");
