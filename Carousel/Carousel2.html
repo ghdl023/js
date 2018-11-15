@@ -5,8 +5,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Carousel slider</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <style>
+        body{
+            margin:0; padding:0;
+        }
+
+        .slider-box{
+            width:800px;
+            height:400px;
+            margin:0 auto;
+            position:relative;
+            overflow:hidden;
+        }
+
+        .slider{
+            width:100%;
+            height:100%;
+        }
+
+        .item{
+            background:slateblue;
+            color:white;
+            width:100%;
+            height:100%;
+            position:absolute;
+            top:0;
+            left:0;
+            display:flex;
+            justify-content: center;
+            align-items:center;
+            float:left;
+            opacity:0;
+            transition:opacity 1s ease-in-out;
+        }
+
+        .prev, .next{ z-index:2; position:absolute; transform:translateY(-50%); cursor:pointer;}
+        .prev{left:50px;top:200px;}
+        .next{right:50px;top:200px;}
+
+        .showing{
+            z-index:1;
+            opacity:1;
+        }
+
+    </style>
 </head>
 <body>
-    
+    <div class="slider-box">
+        <div class="slider">
+            <div class="item"><h1>첫번째 슬라이드</h1></div>
+            <div class="item"><h1>두번째 슬라이드</h1></div>
+            <div class="item"><h1>세번째 슬라이드</h1></div>
+        </div>
+        <span class="carousel-control-prev-icon prev"></span>
+        <span class="carousel-control-next-icon next"></span>
+    </div>
+
+    <script>
+        var firstItem = document.querySelector(".item:first-child");
+        var lastItem = document.querySelector(".item:last-child");
+        const SHOWING_CN = "showing";
+
+        var prevButton = document.querySelector(".prev");
+        var nextButton = document.querySelector(".next");
+
+        prevButton.addEventListener("click",Prev);
+        nextButton.addEventListener("click",Next);
+
+        function Prev(){
+            var currentItem = document.querySelector(".showing");
+            var prevItem = currentItem.previousElementSibling;
+            if(prevItem){
+                currentItem.classList.remove(SHOWING_CN);
+                prevItem.classList.add(SHOWING_CN);
+             }else{
+                currentItem.classList.remove(SHOWING_CN);
+                lastItem.classList.add(SHOWING_CN);                    
+            }  
+        }
+
+        function Next(){
+            var currentItem = document.querySelector(".showing");
+            var nextItem = currentItem.nextElementSibling;
+            if(nextItem){
+                currentItem.classList.remove(SHOWING_CN);
+                nextItem.classList.add(SHOWING_CN);
+             }else{
+                currentItem.classList.remove(SHOWING_CN);
+                firstItem.classList.add(SHOWING_CN);                    
+            }  
+        }
+        
+        function init(){
+            var currentItem = document.querySelector(".showing");
+            if(!currentItem){
+                firstItem.classList.add(SHOWING_CN);
+            }
+        }
+        init();
+        // setInterval(slide,2000);
+        
+    </script>
 </body>
 </html>
