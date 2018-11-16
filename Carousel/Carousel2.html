@@ -7,6 +7,8 @@
     <title>Carousel slider</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <style>
+        ul{list-style:none; padding:0;}
+
         body{
             margin:0; padding:0;
         }
@@ -44,6 +46,27 @@
         .prev{left:50px;top:200px;}
         .next{right:50px;top:200px;}
 
+        .indicators{
+            z-index:2;
+            position:absolute;
+            bottom:20px;
+            left:400px;
+            transform:translateX(-50%);
+            display:flex;
+            
+        }
+
+        .indicator {
+            width:35px;
+            height:3px;
+            background:rgb(177, 177, 177);
+            margin:4px;
+        }
+
+        .active {
+            background:white;
+        }
+
         .showing{
             z-index:1;
             opacity:1;
@@ -60,13 +83,22 @@
         </div>
         <span class="carousel-control-prev-icon prev"></span>
         <span class="carousel-control-next-icon next"></span>
+        <ul class="indicators">
+            <li class="indicator"></li>
+            <li class="indicator"></li>
+            <li class="indicator"></li>
+        </ul>
     </div>
 
     <script>
         const SHOWING_CN = "showing";
+        const ACTIVE_CN = "active";
 
         var firstItem = document.querySelector(".item:first-child");
         var lastItem = document.querySelector(".item:last-child");
+
+        var firstIndicator = document.querySelector(".indicator:first-child");
+        var lastIndicator = document.querySelector(".indicator:last-child");
 
         var prevButton = document.querySelector(".prev");
         var nextButton = document.querySelector(".next");
@@ -75,15 +107,46 @@
 
         function slide(who){
             var currentItem = document.querySelector(".showing");
-            var nextItem = (who == prevButton) ? currentItem.previousElementSibling : currentItem.nextElementSibling;
-            console.dir(who);
-        
+            var currentIndictor = document.querySelector(".active");
+            var nextItem,nextIndicator;
+
+            if(who==prevButton){
+                nextItem = currentItem.previousElementSibling;
+                nextIndicator = currentIndictor.previousElementSibling;
+            }else{
+                nextItem = currentItem.nextElementSibling;
+                nextIndicator = currentIndictor.nextElementSibling;
+            }
+            // var nextItem = (who == prevButton) ? currentItem.previousElementSibling : currentItem.nextElementSibling;
+            // console.dir(who);
+            // console.log(nextItem,nextIndicator);
+
             if(nextItem){
                 currentItem.classList.remove(SHOWING_CN);
+                currentIndictor.classList.remove(ACTIVE_CN);
                 nextItem.classList.add(SHOWING_CN);
+                nextIndicator.classList.add(ACTIVE_CN);
             }else{
+                // console.log("nothing!");
                 currentItem.classList.remove(SHOWING_CN);
-                (who == prevButton) ? lastItem.classList.add(SHOWING_CN) : firstItem.classList.add(SHOWING_CN);
+                currentIndictor.classList.remove(ACTIVE_CN);
+                
+                if(who==prevButton){
+                    lastItem.classList.add(SHOWING_CN);
+                    lastIndicator.classList.add(ACTIVE_CN);
+                }else{
+                    firstItem.classList.add(SHOWING_CN);
+                    firstIndicator.classList.add(ACTIVE_CN);
+                }
+                
+                // 잘못된 구문
+                // (who==prevButton) ? function(){
+                //     lastItem.classList.add(SHOWING_CN);
+                //     lastIndicator.classList.add(ACTIVE_CN);
+                // } : function(){
+                //     firstItem.classList.add(SHOWING_CN);
+                //     firstIndicator.classList.add(ACTIVE_CN);
+                // }
             }
            
         }
@@ -114,8 +177,12 @@
         
         function init(){
             var currentItem = document.querySelector(".showing");
+            var currentIndictor = document.querySelector(".active");
             if(!currentItem){
                 firstItem.classList.add(SHOWING_CN);
+            }
+            if(!currentIndictor){
+                firstIndicator.classList.add(ACTIVE_CN);
             }
         }
         init();
